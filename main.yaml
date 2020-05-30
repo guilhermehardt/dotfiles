@@ -16,7 +16,7 @@
     # - mysql-shell
     # - pycharm
     # - remmina
-    - simplenote
-    - slack
-    - terraform
+    # - simplenote
+    # - slack
+    # - terraform
     - zsh

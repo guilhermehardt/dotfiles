@@ -1,0 +1,34 @@
+---
+- name: Instal ZSH
+  become: yes
+  package:
+    name: zsh
+    state: present
+
+- name: Get zsh path
+  command: which zsh
+  register: zsh_path
+  changed_when: no
+  tags: configuration
+
+- name: Switch to zsh
+  become: true
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: "{{ zsh_path.stdout }}"
+  tags: configuration
+
+- name: Clone oh-my-zsh repository
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: "{{ ansible_user_dir }}/.oh-my-zsh"
+    accept_hostkey: yes
+    update: yes
+
+- name: write .zshrc
+  become: yes
+  template:
+    src: zshrc.j2
+    dest: '{{ ansible_user_dir }}/.zshrc'
+    backup: yes
+    mode: 'u=rw,go=r'

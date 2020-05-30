@@ -1,0 +1,40 @@
+---
+- name: Get the latest data from github
+  uri:
+    url: "https://api.github.com/repos/{{ repository_name }}/releases/latest"
+    return_content: yes
+  register: release
+
+- name: Extract the release name
+  set_fact: 
+    release_name: "{{ release['json'] | json_query('name') }}"
+
+- name: Get package URL of latest release
+  set_fact: 
+    release_json: "{{ (release.json.assets| selectattr('name', 'match', item)|list)[0] }}"
+  with_items: "Simplenote-linux-{{ release_name }}-amd64.deb"
+  when:
+      - ansible_facts['distribution'] == "Debian" and ansible_facts['distribution'] == "Ubuntu"
+
+- name: Get package URL of latest release
+  set_fact: 
+    release_json: "{{ (release.json.assets| selectattr('name', 'match', item)|list)[0] }}"
+  with_items: "Simplenote-linux-{{ release_name }}-x86_64.rpm"
+  when:
+      - ansible_facts['distribution'] == "Fedora"
+
+- name: Installing
+  become: true
+  apt:
+    deb: "{{ release_json.browser_download_url }}"
+    state: present
+  when:
+      - ansible_facts['distribution'] == "Debian" and ansible_facts['distribution'] == "Ubuntu"
+
+- name: Installing
+  become: true
+  dnf:
+    name: "{{ release_json.browser_download_url }}"
+    state: present
+  when:
+      - ansible_facts['distribution'] == "Fedora"
