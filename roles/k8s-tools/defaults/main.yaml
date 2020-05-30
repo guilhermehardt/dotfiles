@@ -1,0 +1,8 @@
+---
+kops_repository_name: kubernetes/kops
+kops_bin_name: kops
+kops_release_name: kops-linux-amd64
+
+stern_repository_name: wercker/stern
+stern_bin_name: stern
+stern_release_name: stern_linux_amd64

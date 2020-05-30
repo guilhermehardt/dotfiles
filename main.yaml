@@ -1,0 +1,22 @@
+- name: "Local"
+  hosts: localhost
+  connection: local
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
+    pip3_bin_path: "/usr/bin/pip3"
+    running_user_id: "{{ ansible_user_id }}"
+    running_user_dir: "{{ ansible_user_dir }}"
+
+  roles:
+    # - cli-tools
+    # - awscli
+    # - docker
+    # - docker-compose
+    # - k8s-tools
+    # - mysql-shell
+    # - pycharm
+    # - remmina
+    - simplenote
+    - slack
+    - terraform
+    - zsh

@@ -1,0 +1,14 @@
+---
+- name: Install kubectx
+  become: true
+  get_url:
+    url: "https://raw.githubusercontent.com/ahmetb/kubectx/master/kubectx"
+    dest: "/usr/local/bin/kubectx"
+    mode: "+x"
+
+- name: Install kubens
+  become: true
+  get_url:
+    url: "https://raw.githubusercontent.com/ahmetb/kubectx/master/kubens"
+    dest: "/usr/local/bin/kubens"
+    mode: "+x"

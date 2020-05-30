@@ -1,0 +1,4 @@
+---
+repository_name: docker/compose
+bin_name: docker-compose
+release_name: docker-compose-Linux-x86_64

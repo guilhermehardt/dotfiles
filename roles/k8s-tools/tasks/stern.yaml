@@ -1,0 +1,18 @@
+---
+- name: Get the latest release
+  uri:
+    url: "https://api.github.com/repos/{{ stern_repository_name }}/releases/latest"
+    return_content: yes
+  register: release
+
+- name: Get package URL
+  set_fact: 
+    release_json: "{{ (release.json.assets| selectattr('name', 'match', item)|list)[0] }}"
+  with_items: "{{ stern_release_name }}"
+
+- name: Install
+  become: true
+  get_url:
+    url: "{{ release_json.browser_download_url }}"
+    dest: "/usr/local/bin/{{ stern_bin_name }}"
+    mode: "+x"

@@ -1,0 +1,5 @@
+---
+- import_tasks: kops.yaml
+- import_tasks: kubectx.yaml
+- import_tasks: stern.yaml
+- import_tasks: microK8s.yaml

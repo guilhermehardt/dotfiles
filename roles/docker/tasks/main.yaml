@@ -1,0 +1,23 @@
+---
+- name: Uninstall old versions
+  become: true
+  package:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - docker
+    - docker-client
+    - docker-client-latest
+    - docker-common
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-logrotate
+    - docker-selinux
+    - docker-engine-selinux
+    - docker-engine
+
+- name: Install docker
+  become: true
+  snap:
+    name: docker
+    classic: yes

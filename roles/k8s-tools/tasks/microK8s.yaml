@@ -1,0 +1,6 @@
+---
+- name: Install
+  become: true
+  snap:
+    name: microk8s
+    classic: yes
