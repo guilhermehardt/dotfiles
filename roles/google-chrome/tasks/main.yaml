@@ -1,0 +1,30 @@
+---
+- name: Download Google Chrome
+  get_url:
+    url: "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
+    dest: "/tmp/google-chrome-stable_current_x86_64.rpm"
+  when:
+    - ansible_facts['distribution'] == "Fedora"
+
+- name: Install with dnf
+  become: true
+  dnf: 
+    name: "/tmp/google-chrome-stable_current_x86_64.rpm"
+    state: present
+  when:
+      - ansible_facts['distribution'] == "Fedora"
+
+- name: Download Google Chrome
+  get_url:
+    url: "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+    dest: "/tmp/google-chrome-stable_current_x86_64.deb"
+  when:
+    - ansible_facts['distribution'] == "Ubuntu"
+
+- name: Install with dnf
+  become: true
+  apt: 
+    name: "/tmp/google-chrome-stable_current_x86_64.deb"
+    state: present
+  when:
+      - ansible_facts['distribution'] == "Ubuntu"
