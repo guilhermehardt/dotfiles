@@ -9,14 +9,12 @@
   command: which zsh
   register: zsh_path
   changed_when: no
-  tags: configuration
 
 - name: Switch to zsh
   become: true
   user:
     name: "{{ ansible_user_id }}"
     shell: "{{ zsh_path.stdout }}"
-  tags: configuration
 
 - name: Clone oh-my-zsh repository
   git:
@@ -24,6 +22,41 @@
     dest: "{{ ansible_user_dir }}/.oh-my-zsh"
     accept_hostkey: yes
     update: yes
+
+# - name: Clone spaceship theme
+#   git:
+#     repo: https://github.com/denysdovhan/spaceship-prompt.git 
+#     dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+#     accept_hostkey: yes
+#     update: yes
+
+# - name: Install spaceship theme
+#   become: yes
+#   file:
+#     src: "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/spaceship-prompt"
+#     dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
+#     state: link
+
+- name: Clone kube-ps1
+  git:
+    repo: https://github.com/jonmosco/kube-ps1.git
+    dest: "{{ ansible_user_dir }}/.kube-ps1"
+    accept_hostkey: yes
+    update: yes
+
+- name: Clone zsh-history-substring-search
+  git:
+    repo: https://github.com/zsh-users/zsh-history-substring-search.git
+    dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-history-substring-search"
+    accept_hostkey: yes
+    update: yes
+
+- name: Install zsh-history-substring-search
+  become: yes
+  file:
+    src: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-history-substring-search"
+    dest: "{{ ansible_user_dir }}/.oh-my-zsh/plugins/zsh-history-substring-search"
+    state: link
 
 - name: write .zshrc
   become: yes

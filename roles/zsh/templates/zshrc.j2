@@ -1,3 +1,5 @@
+{{ ansible_managed | comment }}
+
 {% set oh_my_zsh = user.oh_my_zsh|default({}) %}
 
 # If you come from bash you might have to change your $PATH.
@@ -12,12 +14,6 @@ export ZSH=$HOME/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="{{ oh_my_zsh.theme | default(oh_my_zsh_theme) }}"
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -26,18 +22,6 @@ ZSH_THEME="{{ oh_my_zsh.theme | default(oh_my_zsh_theme) }}"
 plugins=({{ oh_my_zsh.plugins | default(oh_my_zsh_plugins) | join(' ') }})
 
 source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 
 ##############################
 ####       Alias        ######
@@ -72,14 +56,14 @@ alias kn="kubens"
 alias kon="kubeon"
 alias koff="kubeoff"
 # exporting kubeconfig
-alias kidm1="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-idm1-dev-us-east-1.fluig.io.conf"
-alias kengn="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-fluigeng-prod-nimbvs-1.fluig.io.conf"
-alias kenga="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-fluigeng-prod-us-east-1.fluig.io"
-alias kidm4="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-idm4-dev-us-east-1.fluig.io.conf"
-alias kidm3="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-idm3-prod-sa-east-1.fluig.io.conf"
-alias kpdev="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-platform-dev-us-east-1.fluig.io.conf"
-alias kpprod="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-platform-prod-us-east-1.fluig.io.conf"
-alias kmysand="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-myfluig-sandbox-us-east-1.fluig.io.conf"
+alias kidm1="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-idm1-dev-us-east-1.fluig.io.conf; kon"
+alias kengn="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-fluigeng-prod-nimbvs-1.fluig.io.conf; kon"
+alias kenga="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-fluigeng-prod-us-east-1.fluig.io; kon"
+alias kidm4="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-idm4-dev-us-east-1.fluig.io.conf; kon"
+alias kidm3="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-idm3-prod-sa-east-1.fluig.io.conf; kon"
+alias kpdev="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-platform-dev-us-east-1.fluig.io.conf; kon"
+alias kpprod="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-platform-prod-us-east-1.fluig.io.conf; kon"
+alias kmysand="export KUBECONFIG={{ ansible_user_dir }}/.kube/cluster.k8s-myfluig-sandbox-us-east-1.fluig.io.conf; kon"
 #
 alias idm4="ssh-add -D && ssh-add {{ ansible_user_dir }}/.ssh-k8s/k8s-idm4-dev-us-east-1_rsa && ssh -A admin@bastion.cluster.k8s-idm4-dev-us-east-1.fluig.io"
 alias idm1="ssh-add -D && ssh-add {{ ansible_user_dir }}/.ssh-k8s/k8s-idm1-dev-us-east-1_rsa && ssh -A admin@bastion.cluster.k8s-idm1-dev-us-east-1.fluig.io"
@@ -89,7 +73,7 @@ if [ $commands[kubectl] ]; then
 	source <(kubectl completion zsh)
 fi
 
-# HSTR configuration - add this to ~/.bashrc
-export HISTFILE=~/.zsh_history    # ensure history file visibility
-export HSTR_CONFIG=hicolor        # get more colors
-bindkey -s "\C-r" "\eqhstr\n"     # bind hstr to Ctrl-r (for Vi mode check doc)
+source "{{ ansible_user_dir }}/.kube-ps1/kube-ps1.sh"
+PROMPT='$(kube_ps1)'$PROMPT
+
+koff
