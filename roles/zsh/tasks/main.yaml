@@ -52,14 +52,12 @@
     update: yes
 
 - name: Install zsh-history-substring-search
-  become: yes
   file:
     src: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-history-substring-search"
     dest: "{{ ansible_user_dir }}/.oh-my-zsh/plugins/zsh-history-substring-search"
     state: link
 
 - name: write .zshrc
-  become: yes
   template:
     src: zshrc.j2
     dest: '{{ ansible_user_dir }}/.zshrc'

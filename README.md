@@ -11,5 +11,5 @@ Operation system supported:
 $ sudo dnf install -y ansible
 $ git clone https://github.com/guilhermehardt/dotfiles.git
 $ cd ~/dotfiles
-$ ansible-playbook main.yaml --user=YOUR_USERNAME --ask-become-pass
+$ ansible-playbook main.yaml --user=$USER --ask-become-pass
 ```

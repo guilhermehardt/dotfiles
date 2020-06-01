@@ -3,3 +3,4 @@
 - import_tasks: kubectx.yaml
 - import_tasks: stern.yaml
 - import_tasks: microK8s.yaml
+- import_tasks: kubectl.yaml

@@ -1,0 +1,10 @@
+---
+- name: Clone project
+  git:
+    repo: https://github.com/junegunn/fzf.git
+    dest: "{{ ansible_user_dir }}/.fzf"
+    accept_hostkey: yes
+    update: yes
+
+- name: Install fzf
+  shell: ~/.fzf/install >> /tmp/fzf-install.out

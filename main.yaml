@@ -11,7 +11,7 @@
     git_email: "guilherme.hardt@gmail.com"
 
   roles:
-    - cli-tools
+    - utils
     - awscli
     - docker
     - docker-compose
@@ -22,5 +22,7 @@
     - remmina
     - simplenote
     - slack
+    - vscode
     - terraform
     - zsh
+    - fzf
