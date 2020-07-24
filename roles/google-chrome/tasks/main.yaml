@@ -21,10 +21,10 @@
   when:
     - ansible_facts['distribution'] == "Ubuntu"
 
-- name: Install with dnf
+- name: Install with apt
   become: true
   apt: 
-    name: "/tmp/google-chrome-stable_current_x86_64.deb"
+    deb: "/tmp/google-chrome-stable_current_x86_64.deb"
     state: present
   when:
       - ansible_facts['distribution'] == "Ubuntu"

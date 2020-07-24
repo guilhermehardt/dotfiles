@@ -1,0 +1,44 @@
+---
+- name: Get latest stable release
+  uri:
+    url: https://golang.org/VERSION?m=text
+    return_content: yes
+  register: response
+
+- name: Get content
+  set_fact: 
+    stable_version: "{{ response.content }}"
+
+- name: Download
+  become: true
+  get_url:
+    url: "https://dl.google.com/go/{{ stable_version }}.linux-amd64.tar.gz"
+    dest: "/usr/local/src/go-stable-version.tar.gz"
+
+- name: Extract
+  become: true
+  unarchive: 
+    src: "/usr/local/src/go-stable-version.tar.gz"
+    dest: "/usr/local/"
+    copy: no
+
+- name: Install
+  become: true
+  file:
+    src: "/usr/local/go/bin/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    state: link
+  with_items:
+    - go
+    - gofmt
+
+- name: Create go directory
+  file: 
+    path: "{{ ansible_user_dir }}/{{ go_path }}"
+    state: directory
+
+- name: Install Godep
+  command: go get github.com/tools/godep
+          creates="{{ ansible_user_dir }}/{{ go_path }}/bin/godep"
+  environment:
+    GOPATH: "{{ ansible_user_dir }}/{{ go_path }}"

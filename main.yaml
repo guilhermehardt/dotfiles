@@ -6,6 +6,7 @@
     pip3_bin_path: "/usr/bin/pip3"
     running_user_id: "{{ ansible_user_id }}"
     running_user_dir: "{{ ansible_user_dir }}"
+    go_path: "go"
     project_dir: "projects"
     git_name: "Guilherme Juliano Hardt"
     git_email: "guilherme.hardt@gmail.com"
@@ -17,6 +18,7 @@
     - docker-compose
     - google-chrome
     - k8s-tools
+    - golang
     - mysql-shell
     - pycharm
     - remmina
