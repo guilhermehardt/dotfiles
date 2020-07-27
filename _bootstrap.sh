@@ -17,5 +17,5 @@ if test ! "$(which ansible)"; then
 fi
 echo - "Starting ansible roles ..."
 ansible --version
-ansible-playbook main.yaml
+ansible-playbook main.yaml --user=$USER --ask-become-pass
 echo -e "Done!"
